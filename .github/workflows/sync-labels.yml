@@ -39,12 +39,14 @@ jobs:
             color=$(jq -r '.color' <<< "$label")
             description=$(jq -r '.description' <<< "$label")
 
+            # Printed before the call so a failure is attributable to a label.
+            echo "syncing: $name ($color)"
+
             # --force updates the label if it already exists, creates it if not.
             gh label create "$name" \
               --color "$color" \
               --description "$description" \
               --force
-            echo "synced: $name"
           done
 
       - name: Show resulting labels
