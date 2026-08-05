@@ -15,84 +15,84 @@
 
 # --- type -------------------------------------------------------------------
 - name: bug
-  color: d73a4a
+  color: "d73a4a"
   description: "Algo no funciona como debería"
 
 - name: enhancement
-  color: a2eeef
+  color: "a2eeef"
   description: "Nueva funcionalidad o mejora de una existente"
 
 - name: documentation
-  color: 0075ca
+  color: "0075ca"
   description: "Mejoras o adiciones a la documentación"
 
 - name: question
-  color: d876e3
+  color: "d876e3"
   description: "Duda o petición de información, no un cambio de código"
 
 - name: refactor
-  color: fbca04
+  color: "fbca04"
   description: "Reestructuración interna sin cambio de comportamiento"
 
 - name: performance
-  color: 5319e7
+  color: "5319e7"
   description: "Rendimiento: fluidez del bucle de juego, coste de dibujado"
 
 # --- priority ---------------------------------------------------------------
 - name: "priority: critical"
-  color: b60205
+  color: "b60205"
   description: "El juego no arranca o es injugable; bloquea todo lo demás"
 
 - name: "priority: high"
-  color: d93f0b
+  color: "d93f0b"
   description: "Rompe una mecánica central del juego; necesita atención pronto"
 
 - name: "priority: medium"
-  color: fbca04
+  color: "fbca04"
   description: "Molesto pero con alternativa; se aborda en el flujo normal"
 
 - name: "priority: low"
-  color: 0e8a16
+  color: "0e8a16"
   description: "Detalle menor, pulido o mejora opcional"
 
 # --- area -------------------------------------------------------------------
 - name: "area: gameplay"
-  color: 1d76db
+  color: "1d76db"
   description: "Lógica de juego: piezas, rotación, colisiones, bucle, spawn"
 
 - name: "area: rendering"
-  color: 1d76db
+  color: "1d76db"
   description: "Dibujado en canvas: tablero, bloques, pieza fantasma, preview"
 
 - name: "area: ui"
-  color: 1d76db
+  color: "1d76db"
   description: "Maquetación, estilos, overlays de pausa y fin de partida"
 
 - name: "area: input"
-  color: 1d76db
+  color: "1d76db"
   description: "Controles de teclado: movimiento, rotación, drops, pausa"
 
 - name: "area: scoring"
-  color: 1d76db
+  color: "1d76db"
   description: "Puntuación, niveles, líneas y velocidad de caída"
 
 - name: "area: docs"
-  color: 1d76db
+  color: "1d76db"
   description: "README, CLAUDE.md y demás documentación del repositorio"
 
 - name: "area: ci"
-  color: 1d76db
+  color: "1d76db"
   description: "GitHub Actions, workflows y automatización del repositorio"
 
 # --- status -----------------------------------------------------------------
 - name: triaged
-  color: c2e0c6
+  color: "c2e0c6"
   description: "Clasificado y diagnosticado automáticamente por Claude"
 
 - name: needs-info
-  color: e4e669
+  color: "e4e669"
   description: "Falta información para poder diagnosticar el problema"
 
 - name: duplicate
-  color: cfd3d7
+  color: "cfd3d7"
   description: "Este issue o pull request ya existe"
