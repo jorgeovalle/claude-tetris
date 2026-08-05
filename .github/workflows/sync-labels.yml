@@ -1,0 +1,53 @@
+name: Sync Labels
+
+# Creates or updates the repository labels defined in .github/labels.yml.
+# Labels removed from that file are NOT deleted here — deleting a label strips
+# it from every issue using it, so that stays a deliberate manual action.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/labels.yml'
+      - '.github/workflows/sync-labels.yml'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Sync labels from .github/labels.yml
+        id: sync
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          # yq emits one compact JSON object per label; jq extracts the fields.
+          # Both are preinstalled on ubuntu-latest runners.
+          yq -o=json -I=0 '.[]' .github/labels.yml | while IFS= read -r label; do
+            name=$(jq -r '.name' <<< "$label")
+            color=$(jq -r '.color' <<< "$label")
+            description=$(jq -r '.description' <<< "$label")
+
+            # --force updates the label if it already exists, creates it if not.
+            gh label create "$name" \
+              --color "$color" \
+              --description "$description" \
+              --force
+            echo "synced: $name"
+          done
+
+      - name: Show resulting labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh label list --limit 100
