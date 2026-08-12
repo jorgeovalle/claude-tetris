@@ -145,11 +145,15 @@ function lockPiece() {
 }
 
 function spawn() {
-  current = next;
-  next = randomPiece();
-  if (collide(current.shape, current.x, current.y)) {
+  const piece = next;
+  // Si la pieza no cabe al entrar, la partida termina: no se consume `next`
+  // ni se redibuja el preview, que queda congelado en esa misma pieza.
+  if (collide(piece.shape, piece.x, piece.y)) {
     endGame();
+    return;
   }
+  current = piece;
+  next = randomPiece();
   drawNext();
 }
 
@@ -197,6 +201,9 @@ function draw() {
     for (let c = 0; c < COLS; c++)
       drawBlock(ctx, c, r, board[r][c], BLOCK);
 
+  // sin pieza activa (game over) sólo se pinta el tablero congelado
+  if (!current) return;
+
   // ghost
   const gy = ghostY();
   for (let r = 0; r < current.shape.length; r++)
@@ -223,7 +230,10 @@ function drawNext() {
 
 function endGame() {
   gameOver = true;
+  current = null;
   cancelAnimationFrame(animId);
+  animId = null;
+  draw(); // render final del tablero, ya sin pieza activa ni ghost
   overlayTitle.textContent = 'GAME OVER';
   overlayScore.textContent = `Puntuación: ${score.toLocaleString()}`;
   overlay.classList.remove('hidden');
@@ -255,6 +265,9 @@ function loop(ts) {
       lockPiece();
     }
   }
+  // `lockPiece()` pudo terminar la partida: no reagendar otro frame,
+  // el render final ya lo hizo `endGame()`.
+  if (gameOver) return;
   draw();
   animId = requestAnimationFrame(loop);
 }
@@ -277,7 +290,10 @@ themeToggleBtn.addEventListener('click', () => {
 });
 
 function init() {
+  cancelAnimationFrame(animId);
+  animId = null;
   board = createBoard();
+  current = null;
   score = 0;
   lines = 0;
   level = 1;
@@ -290,7 +306,6 @@ function init() {
   spawn();
   updateHUD();
   overlay.classList.add('hidden');
-  cancelAnimationFrame(animId);
   animId = requestAnimationFrame(loop);
 }
 
