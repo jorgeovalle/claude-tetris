@@ -34,7 +34,7 @@ Then open `http://localhost:8000` in a browser.
 ### Game State
 All state is stored in module-level variables: `board`, `current` (active piece), `next` (preview), `score`, `lines`, `level`, `paused`, `gameOver`, etc.
 
-**Board model**: 2D array (`ROWS × COLS`, default 20×10). Each cell is `0` (empty) or `1–7` (piece color/type index).
+**Board model**: 2D array (`ROWS × COLS`, default 20×10). Each cell is `0` (empty) or `1–8` (piece color/type index).
 
 ### Game Loop
 - **Trigger**: `requestAnimationFrame(loop)`
@@ -42,7 +42,7 @@ All state is stored in module-level variables: `board`, `current` (active piece)
 - **Drop speed**: Calculated as `max(100, 1000 - (level - 1) × 90)` ms; increases each 10 cleared lines.
 
 ### Piece System
-- **Data**: `PIECES` array holds 7 tetromino shapes (indices 1–7) as 3D/4D matrices.
+- **Data**: `PIECES` array holds 8 shapes (indices 1–7 standard tetrominoes, 8 a 3×3 hollow-center "ring" piece) as 3D/4D matrices.
 - **Rotation**: `rotateCW(shape)` transposes + reverses rows (90° clockwise).
 - **Wall kicks**: `tryRotate()` attempts rotation at offsets `[0, ±1, ±2]` columns if base position collides.
 - **Collision**: `collide(shape, x, y)` checks bounds and board overlap.
@@ -66,7 +66,7 @@ All tunable constants are at the top of `game.js`:
 | `COLS` | 10 | If changed, update canvas width: `width = COLS × BLOCK` |
 | `ROWS` | 20 | If changed, update canvas height: `height = ROWS × BLOCK` |
 | `BLOCK` | 30 | Cell size in pixels |
-| `COLORS` | 7 hex colors | One per piece type (index 1–7) |
+| `COLORS` | 8 hex colors | One per piece type (index 1–8) |
 | `LINE_SCORES` | `[0,100,300,500,800]` | Points for 1, 2, 3, or 4 lines cleared |
 
 **Important**: If you modify `COLS`, `ROWS`, or `BLOCK`, also update the corresponding `width` and `height` attributes on both canvas elements in `index.html` to keep rendering consistent.
